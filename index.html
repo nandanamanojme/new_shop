@@ -4,80 +4,204 @@
   <meta charset="UTF-8">
   <title>Flower Shop | GA4 Demo</title>
 
-  <!-- GA4 TAG -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFR3LT8115"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RFR3LT8115', {
-      debug_mode: true   // IMPORTANT for DebugView
-    });
-  </script>
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFR3LT8115"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  <!-- SAFE EVENT WRAPPER -->
-  <script>
-    function sendEvent(eventName, params = {}) {
-      if (typeof gtag === "function") {
-        gtag('event', eventName, {
-          ...params,
-          event_callback: () => {
-            console.log(eventName + " event sent");
-          }
-        });
-      } else {
-        console.warn("gtag not ready:", eventName);
-      }
-    }
-  </script>
+  gtag('config', 'G-RFR3LT8115');
+</script>
 
+  <!-- FULL STYLES -->
   <style>
-    body { font-family: Arial; padding: 20px; }
-    button { padding: 10px 15px; margin: 10px 0; }
+    :root{
+      --pink: #e84393;
+      --bg:#fff;
+      --muted:#999;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Verdana, Geneva, Tahoma, sans-serif;
+      transition:.15s linear;
+    }
+
+    html{
+      font-size:62.5%;
+      scroll-behavior:smooth;
+      scroll-padding-top:6rem;
+    }
+
+    body{
+      background:#fafafa;
+      color:#333;
+    }
+
+    header{
+      background:var(--bg);
+      padding:2rem;
+      text-align:center;
+      box-shadow:0 .5rem 1rem rgba(0,0,0,.06);
+    }
+
+    section{
+      padding:4rem 9%;
+    }
+
+    h1{
+      font-size:3rem;
+    }
+
+    h2{
+      font-size:2.6rem;
+      margin-bottom:2rem;
+    }
+
+    .product{
+      background:#fff;
+      border:.1rem solid rgba(0,0,0,.06);
+      border-radius:.6rem;
+      padding:1.6rem;
+      margin-bottom:1.5rem;
+      box-shadow:0 .4rem .8rem rgba(0,0,0,.04);
+    }
+
+    .product h3{
+      font-size:1.9rem;
+      margin-bottom:.6rem;
+    }
+
+    .product p{
+      font-size:1.6rem;
+      margin-bottom:1rem;
+      color:var(--pink);
+      font-weight:700;
+    }
+
+    button{
+      padding:.7rem 1.4rem;
+      background:var(--pink);
+      color:#fff;
+      border:none;
+      border-radius:.6rem;
+      font-size:1.4rem;
+      cursor:pointer;
+    }
+
+    button:hover{
+      opacity:.9;
+    }
+
+    input{
+      padding:.8rem;
+      width:100%;
+      margin-bottom:1rem;
+      border:.1rem solid #ccc;
+      border-radius:.4rem;
+    }
+
+    video{
+      margin-top:1rem;
+      border-radius:.6rem;
+    }
+
+    @media (max-width:768px){
+      section{ padding:3rem 2rem; }
+    }
   </style>
 </head>
 
 <body>
-  <h1>🌸 Flower Shop</h1>
 
-  <!-- ADD TO CART -->
-  <button onclick="addToCart()">Add Rose to Cart</button>
+<header>
+  <h1>Flower Shop 🌸</h1>
+</header>
 
-  <!-- CHECKOUT -->
+<!-- PRODUCTS -->
+<section id="products">
+  <h2>Products</h2>
+
+  <div class="product">
+    <h3>Rose Bouquet</h3>
+    <p>₹500</p>
+    <button onclick="addToCart('Rose Bouquet', 500)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <h3>Tulip Mix</h3>
+    <p>₹700</p>
+    <button onclick="addToCart('Tulip Mix', 700)">Add to Cart</button>
+  </div>
+
+  <h3 style="font-size:1.8rem;margin-top:1.5rem;">
+    Total: ₹<span id="total">0</span>
+  </h3>
   <button onclick="checkout()">Checkout</button>
+</section>
 
-  <!-- FORM -->
-  <form onsubmit="submitForm(event)">
-    <input type="text" placeholder="Your Name" required />
-    <button type="submit">Submit Form</button>
+<!-- CONTACT / INTERACTIONS -->
+<section id="contact">
+  <h2>Contact Us</h2>
+
+  <form id="contactForm">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <button type="submit">Submit</button>
   </form>
 
-  <script>
-    function addToCart() {
-      sendEvent('add_to_cart', {
-        item_name: 'Rose Bouquet',
-        item_category: 'Flowers',
-        price: 299
-      });
-    }
+  <h3 style="margin-top:2rem;font-size:2rem;">Promo Video</h3>
+  <video id="promoVideo" width="320" controls>
+    <source src="videos/sample.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-    function checkout() {
-      sendEvent('begin_checkout', {
-        value: 299,
-        currency: 'INR'
-      });
-    }
+  <h3 style="margin-top:2rem;font-size:2rem;">Upload File</h3>
+  <input type="file" id="fileUpload">
+</section>
 
-    function submitForm(e) {
-      e.preventDefault();
-      sendEvent('form_submit', {
-        form_name: 'contact_form'
-      });
-    }
-  </script>
+<script>
+  let total = 0;
+
+  function addToCart(product, price) {
+    total += price;
+    document.getElementById("total").innerText = total;
+
+    gtag('event', 'add_to_cart', {
+      product_name: product,
+      cart_value: price
+    });
+  }
+
+  function checkout() {
+    gtag('event', 'checkout', {
+      cart_value: total
+    });
+
+    alert("Checkout Successful!");
+    total = 0;
+    document.getElementById("total").innerText = total;
+  }
+
+  document.getElementById("contactForm").addEventListener("submit", function () {
+    gtag('event', 'form_submit');
+  });
+
+  document.getElementById("promoVideo").addEventListener("play", function () {
+    gtag('event', 'video_play');
+  });
+
+  document.getElementById("fileUpload").addEventListener("change", function () {
+    gtag('event', 'file_upload');
+  });
+</script>
 
 </body>
 </html>
+
 
 
 
