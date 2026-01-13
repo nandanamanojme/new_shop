@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,8 +53,22 @@
     .hero h1{font-size:32px;margin:0 0 8px}
     .hero p{color:var(--muted);margin:0 0 16px}
     .hero .cta-row{display:flex;gap:12px;flex-wrap:wrap}
-    .hero__image img{width:50%;height:auto;border-radius:12px;border:1px solid var(--border)}
 
+    /* Align & size the hero image + caption */
+    .hero__image { text-align:center; }
+    .hero__image figure { margin:0; }
+    .hero__image img{
+      width:100px;              /* small size as requested */
+      height:auto;
+      margin:0 auto;
+      border-radius:12px;
+      border:1px solid var(--border);
+    }
+    .hero__caption{
+      margin-top:8px;
+      font-weight:600;
+      color:#111;
+    }
 
     /* Grid for products */
     .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -134,10 +149,15 @@
         </span>
         <button class="btn-nav" data-route="home" data-scroll="contact" aria-label="Contact Us">Contact</button>
       </nav>
+
+      <!-- Small hero image + caption in header area (kept small & centered) -->
       <div class="hero__image">
-      images/hero-banner.jpg
+        <figure>
+          images/apples.jpg
+          <figcaption class="hero__caption">Apples</figcaption>
+        </figure>
+      </div>
     </div>
-  </div>
   </header>
 
   <!-- ============ HOME SECTION ============ -->
@@ -154,9 +174,13 @@
             <button class="btn btn-ghost" data-route="home" data-scroll="contact" aria-label="Contact Us">Contact Us</button>
           </div>
         </div>
+
+        <!-- Small hero image + caption in hero area -->
         <div class="hero__image">
-          <!-- Local banner image from images/ folder -->
-          images/hero-banner.jpg
+          <figure>
+            images/apples.jpg
+            <figcaption class="hero__caption">Apples</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -389,7 +413,8 @@
     function cardHTML(p){
       return `
         <div class="product card">
-          <img src="images/${p.image}" alt="${p.name}" width="100  <div class="price">₹${p.price}</div>
+          <img src{p.image}
+          <div class="price">₹${p.price}</div>
           <div class="qty-row">
             <label for="qty_${p.id}">Qty</label>
             <input type="number" min="1" value="1" id="qty_${p.id}" />
@@ -438,16 +463,13 @@
       }
       wrap.innerHTML = cart.map(item => `
         <div class="cart-item">
-          <img src="images/${item.image}" alt>
-            <h4>${item.name}</h4>
-            <div>₹${item.price} x ${item.qty} = ₹${item.price * item.qty}</div>
-            <div class="qty-controls">
-              <button class="btn" onclick="changeQty(${item.id}, -1)">-</button>
-              <button class="btn" onclick="changeQty(${item.id}, +1)">+</button>
-              <span class="remove" onclick="removeItem(${item.id})">Remove</span>
-            </div>
+          <img src="images/${item.image}" alt="${em.name}</h4>
+          <div>₹${item.price} x ${item.qty} = ₹${item.price * item.qty}</div>
+          <div class="qty-controls">
+            <button class="btn" onclick="changeQty(${item.id}, -1)">-</button>
+            <button class="btn" onclick="changeQty(${item.id}, +1)">+</button>
+            <span class="remove" onclick="removeItem(${item.id})">Remove</span>
           </div>
-          <div></div>
         </div>
       `).join('');
       updateTotals();
@@ -638,6 +660,8 @@
 </body>
 </html>
 ``
+
+
 
 
 
