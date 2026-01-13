@@ -62,7 +62,8 @@
     .card .qty-row{display:flex;gap:8px;align-items:center;margin:10px 0}
     .card .qty-row input{width:72px;padding:6px;border:1px solid var(--border);border-radius:6px}
     .card .actions{display:flex;gap:8px}
-    .card img{width:100%;height:160px;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
+    /* product image sizing to match your requested width="100" but responsive */
+    .product img{width:100px;height:100px;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
 
     /* Buttons */
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none}
@@ -83,8 +84,8 @@
     .cat-card:hover{background:#f0fdf4;color:var(--green)}
 
     /* Cart page */
-    .cart-item{display:grid;grid-template-columns:80px 1fr auto;gap:12px;padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff;margin-bottom:10px}
-    .cart-item img{width:80px;height:80px;object-fit:cover;border-radius:8px}
+    .cart-item{display:grid;grid-template-columns:120px 1fr auto;gap:12px;padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff;margin-bottom:10px}
+    .cart-item img{width:100px;height:100px;object-fit:cover;border-radius:8px}
     .cart-item h4{margin:0}
     .cart-summary{display:flex;align-items:center;justify-content:space-between;margin-top:16px}
     .cart-item .qty-controls{display:flex;gap:6px;align-items:center;margin-top:6px}
@@ -292,48 +293,49 @@
     // ----- Data & Storage -----
     const CART_KEY = 'veggies_cart';
 
-    // Images pulled from /images folder (HTML <img> strings)
+    // Store only filenames; templates render images/...
     const PRODUCTS = [
       // Fruits
-      {id:1, name:'Apples', category:'Fruits', price:120, image:'images/apples.jpg'},
-      {id:2, name:'Bananas', category:'Fruits', price:60, image:'images/bananas.jpg'},
-      {id:3, name:'Oranges', category:'Fruits', price:90, image:'images/oranges.jpg'},
-      {id:4, name:'Grapes', category:'Fruits', price:150, image:'images/grapes.jpg'},
+      {id:1, name:'Apples', category:'Fruits', price:120, image:'apples.jpg'},
+      {id:2, name:'Bananas', category:'Fruits', price:60, image:'bananas.jpg'},
+      {id:3, name:'Oranges', category:'Fruits', price:90, image:'oranges.jpg'},
+      {id:4, name:'Grapes', category:'Fruits', price:150, image:'grapes.jpg'},
 
       // Vegetables
-      {id:5, name:'Tomatoes', category:'Vegetables', price:50, image:'images/tomatoes.jpg'},
-      {id:6, name:'Potatoes', category:'Vegetables', price:40, image:'images/potatoes.jpg'},
-      {id:7, name:'Carrots', category:'Vegetables', price:45, image:'images/carrots.jpg'},
-      {id:8, name:'Spinach', category:'Vegetables', price:35, image:'images/spinach.jpg'},
+      {id:5, name:'Tomatoes', category:'Vegetables', price:50, image:'tomatoes.jpg'},
+      {id:6, name:'Potatoes', category:'Vegetables', price:40, image:'potatoes.jpg'},
+      {id:7, name:'Carrots', category:'Vegetables', price:45, image:'carrots.jpg'},
+      {id:8, name:'Spinach', category:'Vegetables', price:35, image:'spinach.jpg'},
 
       // Dairy
-      {id:9, name:'Milk (1L)', category:'Dairy', price:70, image:'images/milk.jpg'},
-      {id:10, name:'Curd (500g)', category:'Dairy', price:55, image:'images/curd.jpg'},
-      {id:11, name:'Cheese (200g)', category:'Dairy', price:180, image:'images/cheese.jpg'},
-      {id:12, name:'Butter (100g)', category:'Dairy', price:80, image:'images/butter.jpg'},
+      {id:9, name:'Milk (1L)', category:'Dairy', price:70, image:'milk.jpg'},
+      {id:10, name:'Curd (500g)', category:'Dairy', price:55, image:'curd.jpg'},
+      {id:11, name:'Cheese (200g)', category:'Dairy', price:180, image:'cheese.jpg'},
+      {id:12, name:'Butter (100g)', category:'Dairy', price:80, image:'butter.jpg'},
 
       // Snacks
-      {id:13, name:'Chips', category:'Snacks', price:30, image:'images/chips.jpg'},
-      {id:14, name:'Biscuits', category:'Snacks', price:25, image:'images/biscuits.jpg'},
-      {id:15, name:'Chocolate', category:'Snacks', price:90, image:'images/chocolate.jpg'},
-      {id:16, name:'Namkeen', category:'Snacks', price:60, image:'images/namkeen.jpg'},
+      {id:13, name:'Chips', category:'Snacks', price:30, image:'chips.jpg'},
+      {id:14, name:'Biscuits', category:'Snacks', price:25, image:'biscuits.jpg'},
+      {id:15, name:'Chocolate', category:'Snacks', price:90, image:'chocolate.jpg'},
+      {id:16, name:'Namkeen', category:'Snacks', price:60, image:'namkeen.jpg'},
 
       // Grains
-      {id:17, name:'Rice (1kg)', category:'Grains', price:80, image:'<img src="images/rice.jpg" alt="Rice (1kgeat Flour (1kg)', category:'Grains', price:60, image:'images/wheat-flour.jpg'},
-      {id:19, name:'Pulses (1kg)', category:'Grains', price:120, image:'<img src="ses.jpg'},
-      {id:20, name:'Oats (500g)', category:'Grains', price:95, image:'images/oats.jpg'},
+      {id:17, name:'Rice (1kg)', category:'Grains', price:80, image:'rice.jpg'},
+      {id:18, name:'Wheat Flour (1kg)', category:'Grains', price:60, image:'wheat-flour.jpg'},
+      {id:19, name:'Pulses (1kg)', category:'Grains', price:120, image:'pulses.jpg'},
+      {id:20, name:'Oats (500g)', category:'Grains', price:95, image:'oats.jpg'},
 
       // Beverages
-      {id:21, name:'Tea', category:'Beverages', price:110, image:'<mages/tea.jpg'},
-      {id:22, name:'Coffee', category:'Beverages', price:180, image:'images/coffee.jpg'},
-      {id:23, name:'Juice', category:'Beverages', price:90, image:'images/juice.jpg'},
-      {id:24, name:'Soft Drink', category:'Beverages', price:40, image:'images/soft-drink.jpg'},
+      {id:21, name:'Tea', category:'Beverages', price:110, image:'tea.jpg'},
+      {id:22, name:'Coffee', category:'Beverages', price:180, image:'coffee.jpg'},
+      {id:23, name:'Juice', category:'Beverages', price:90, image:'juice.jpg'},
+      {id:24, name:'Soft Drink', category:'Beverages', price:40, image:'soft-drink.jpg'},
 
       // Household
-      {id:25, name:'Detergent', category:'Household', price:220, image:'images/detergent.jpg'},
-      {id:26, name:'Dish Soap', category:'Household', price:95, image:'images/dish-soap.jpg'},
-      {id:27, name:'Toilet Cleaner', category:'Household', price:150, image:'images/toilet-cleaner.jpg'},
-      {id:28, name:'Paper Towels', category:'Household', price:85, image:'images/paper-towels.jpg'}
+      {id:25, name:'Detergent', category:'Household', price:220, image:'detergent.jpg'},
+      {id:26, name:'Dish Soap', category:'Household', price:95, image:'dish-soap.jpg'},
+      {id:27, name:'Toilet Cleaner', category:'Household', price:150, image:'toilet-cleaner.jpg'},
+      {id:28, name:'Paper Towels', category:'Household', price:85, image:'paper-towels.jpg'}
     ];
 
     function getCart(){
@@ -356,7 +358,13 @@
       const cart = getCart();
       const existing = cart.find(item => item.id === productId);
       if(existing){ existing.qty += qty; }
-      else{ cart.push({ id:product.id, name:product.name, price:product.price, image:product.image, qty }); }
+      else{
+        cart.push({
+          id:product.id, name:product.name, price:product.price,
+          image:product.image, /* filename only */
+          qty
+        });
+      }
       saveCart(cart);
       updateNavCartCount();
       dataLayerPush('add_to_cart', { product_id: product.id, product_name: product.name, qty, price: product.price });
@@ -366,7 +374,9 @@
     function buyNow(productId, qty){
       const product = PRODUCTS.find(p => p.id === productId);
       if(!product) return;
-      sessionStorage.setItem('veggies_buy_now', JSON.stringify({ id:product.id, name:product.name, price:product.price, image:product.image, qty }));
+      sessionStorage.setItem('veggies_buy_now', JSON.stringify({
+        id:product.id, name:product.name, price:product.price, image:product.image, qty
+      }));
       dataLayerPush('begin_checkout', { type:'buy_now', product_id: product.id, product_name: product.name, qty, price: product.price });
       navigateTo('checkout');
     }
@@ -374,10 +384,8 @@
     // ----- Rendering -----
     function cardHTML(p){
       return `
-        <div class="card">
-          ${p.image}
-          <h3>${p.name}</h3>
-          <div class="price">₹${p.price}</div>
+        <div class="product card">
+          <img src="images/${p.image}" alt="${p.name}" width="100  <div class="price">₹${p.price}</div>
           <div class="qty-row">
             <label for="qty_${p.id}">Qty</label>
             <input type="number" min="1" value="1" id="qty_${p.id}" />
@@ -426,8 +434,7 @@
       }
       wrap.innerHTML = cart.map(item => `
         <div class="cart-item">
-          ${item.image}
-          <div>
+          <img src="images/${item.image}" alt>
             <h4>${item.name}</h4>
             <div>₹${item.price} x ${item.qty} = ₹${item.price * item.qty}</div>
             <div class="qty-controls">
@@ -627,3 +634,5 @@
 </body>
 </html>
 ``
+
+
